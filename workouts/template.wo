@@ -1,0 +1,8 @@
+WORKOUT My Title for the workout
+FIELD The type of exercise, for example Cardio, Fat Burner, Endurance, etc.
+# minutes_(float)  spm_(int)
+5 20
+5 22
+5 24
+5 26
+5 28
