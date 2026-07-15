@@ -26,9 +26,39 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Cycle Workout")
-        self.setStyleSheet(
-            f"background-color: {WINDOW_BACKGROUND};"
-        )
+        
+        self.setStyleSheet(f"""
+            QMainWindow {{
+                background-color: {WINDOW_BACKGROUND};
+            }}
+
+            QMenuBar {{
+                background-color: {WINDOW_BACKGROUND};
+                color: {TEXT_COLOR};
+            }}
+
+            QMenuBar::item {{
+                background: transparent;
+                color: {TEXT_COLOR};
+                padding: 4px 10px;
+            }}
+
+            QMenuBar::item:selected {{
+                background-color: #505050;
+                color: #F0F0F0;
+            }}
+
+            QMenu {{
+                background-color: {WINDOW_BACKGROUND};
+                color: {TEXT_COLOR};
+                border: 1px solid #555555;
+            }}
+
+            QMenu::item:selected {{
+                background-color: #505050;
+                color: #FFFFFF;
+            }}
+            """)
 
         self.workout = Workout()
 
@@ -90,9 +120,9 @@ class MainWindow(QMainWindow):
         layout.setSpacing(20)
         layout.setContentsMargins(
             30,
+            10,
             30,
-            30,
-            30
+            50
         )
 
         self.title_label = QLabel("Workout")
