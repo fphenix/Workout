@@ -1,8 +1,8 @@
 import time
 
 from setup import *
-from utils import load_workout, format_time
 from Workout import Workout
+from utils import load_workout, format_time
 
 from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
@@ -151,11 +151,15 @@ class MainWindow(QMainWindow):
             "Cadence : -- CPM"
         )
 
+        self.intensity_label = QLabel(
+            "Intensité : --"
+        )
 
         for label in (
             self.total_label,
             self.exercise_label,
             self.rate_label,
+            self.intensity_label,
         ):
 
             label.setAlignment(
@@ -234,6 +238,10 @@ class MainWindow(QMainWindow):
             self.rate_label
         )
 
+        layout.addWidget(
+            self.intensity_label
+        )
+
         bar_layout = QHBoxLayout()
         bar_layout.addStretch()
         bar_layout.addWidget(self.bar)
@@ -270,7 +278,6 @@ class MainWindow(QMainWindow):
             )
 
             return
-
 
         # Reset complet
 
@@ -315,6 +322,10 @@ class MainWindow(QMainWindow):
 
         self.rate_label.setText(
             "Cadence : -- CPM"
+        )
+
+        self.intensity_label.setText(
+            "Intensité : --"
         )
 
         self.last_tick = time.perf_counter()
@@ -414,10 +425,7 @@ class MainWindow(QMainWindow):
             self.finish_workout()
             return
 
-
         self.start_step()
-
-
 
     # -------------------------------------------------------------------------
     # Progress bar
@@ -443,8 +451,6 @@ class MainWindow(QMainWindow):
             int(progress * 1000)
         )
 
-
-
     # -------------------------------------------------------------------------
     # Labels update
     # -------------------------------------------------------------------------
@@ -454,9 +460,7 @@ class MainWindow(QMainWindow):
         if not self.running:
             return
 
-
         step = self.workout.steps[self.current_step]
-
 
         self.total_label.setText(
             "Temps total : "
@@ -464,7 +468,6 @@ class MainWindow(QMainWindow):
                 self.total_remaining
             )
         )
-
 
         self.exercise_label.setText(
             f"Exercice "
@@ -474,12 +477,13 @@ class MainWindow(QMainWindow):
             f"{format_time(self.step_remaining)}"
         )
 
-
         self.rate_label.setText(
             f"Cadence : {step.cpm} CPM"
         )
 
-
+        self.intensity_label.setText(
+            f"Intensité : {step.intensity_text}"
+        )
 
     # -------------------------------------------------------------------------
     # End workout
@@ -505,4 +509,6 @@ class MainWindow(QMainWindow):
             ""
         )
 
-
+        self.intensity_label.setText(
+            ""
+        )

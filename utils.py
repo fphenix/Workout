@@ -1,4 +1,7 @@
-from Workout import Workout, WorkoutStep
+from Workout import Workout
+from WorkoutStep import WorkoutStep
+
+from setup import INTENSITY_DICT
 
 # -----------------------------------------------------------------------------
 # Setup file loader
@@ -35,7 +38,7 @@ def load_workout(filename):
 
                 continue
 
-            #WORKOUT field
+            # FIELD field
             elif upper.startswith("FIELD"):
 
                 field = line[len("FIELD"):].strip()
@@ -49,17 +52,18 @@ def load_workout(filename):
 
             parts = line.split()
 
-            if len(parts) != 2:
+            if len(parts) != 3:
                 raise ValueError(
-                    f"Line {lineno}: expected 'minutes cpm'"
+                    f"Line {lineno}: expected 'minutes cpm intensity'"
                 )
 
             try:
                 minutes = float(parts[0])
                 cpm = int(parts[1])
+                intensity = str(parts[2])
             except ValueError:
                 raise ValueError(
-                    f"Line {lineno}: invalid integer"
+                    f"Line {lineno}: invalid data type"
                 )
 
             if (minutes <= 0.0) or (minutes > 120.0):
@@ -71,9 +75,14 @@ def load_workout(filename):
                 raise ValueError(
                     f"Line {lineno}: CPM must be > 0 and <= 50"
                 )
-
+            
+            if intensity not in INTENSITY_DICT:
+                raise ValueError(
+                    f"Line {lineno}: intensity must be one of R, E, N, F or M"
+                )
+            
             workout.steps.append(
-                WorkoutStep(minutes, cpm)
+                WorkoutStep(minutes, cpm, intensity)
             )
 
     if not workout.steps:

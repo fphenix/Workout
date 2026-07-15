@@ -15,6 +15,14 @@ BAR_BORDER = "#666666"
 BAR_COLOR = "#00CC44"
 TEXT_COLOR = "white"
 
+INTENSITY_DICT = {
+    "R" : "Recovery (Très facile)",
+    "E" : "Active Recovery / Facile",
+    "N" : "Normale",
+    "F" : "Forte",
+    "M" : "Max / Très Forte"
+}
+
 TITLE_FONT = 24
 BIG_FONT = 20
 NORMAL_FONT = 16
