@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
     QProgressBar,
     QVBoxLayout,
     QWidget,
+    QListWidget,
 )
 
 # -----------------------------------------------------------------------------
@@ -115,7 +116,10 @@ class MainWindow(QMainWindow):
         container = QWidget()
         self.setCentralWidget(container)
 
-        layout = QVBoxLayout(container)
+        main_layout = QHBoxLayout(container)
+
+        layout = QVBoxLayout()
+        main_layout.addLayout(layout, 60)   # partie principale ; 60% car step_list a 40%
 
         layout.setSpacing(20)
         layout.setContentsMargins(
@@ -279,6 +283,33 @@ class MainWindow(QMainWindow):
 
         layout.addLayout(bar_layout)
 
+        # -- Liste steps
+
+        self.step_list = QListWidget()
+
+        self.step_list.setMinimumWidth(250)
+        #self.step_list.setFixedWidth(280)
+
+        self.step_list.setStyleSheet(f"""
+        QListWidget {{
+            background-color: {WINDOW_BACKGROUND};
+            color: {TEXT_COLOR};
+            border: 1px solid #555555;
+            font: {LIST_FONT}px Consolas;
+        }}
+
+        QListWidget::item {{
+            padding: 3px;
+        }}
+
+        QListWidget::item:selected {{
+            background: #808080;
+            color: black;
+        }}
+        """)
+
+        main_layout.addWidget(self.step_list, 40) # 40% car main_layout a 60%
+
 
     # -------------------------------------------------------------------------
     # Loading setup
@@ -312,6 +343,16 @@ class MainWindow(QMainWindow):
         # Reset complet
 
         self.workout = workout
+
+        self.step_list.clear()
+
+        for i, step in enumerate(workout.steps, start=1):
+            self.step_list.addItem(
+                f"{i:2d}. "
+                f"{step.duration_seconds:>3}s   "
+                f"{step.cpm:>3} CPM   "
+                f"{step.intensity_text}"
+            )
 
         self.current_step = 0
 
@@ -423,13 +464,17 @@ class MainWindow(QMainWindow):
     def start_step(self):
 
         if self.current_step >= len(self.workout.steps):
-
             self.finish_workout()
             return
 
         step = self.workout.steps[self.current_step]
 
         self.step_remaining = (step.duration_seconds)
+
+        self.step_list.setCurrentRow(self.current_step)
+        self.step_list.scrollToItem(
+            self.step_list.currentItem()
+        )
 
         self.step_elapsed = 0
         self.beat_phase = 0.0
