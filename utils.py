@@ -67,9 +67,9 @@ def load_workout(filename):
                     f"Line {lineno}: duration must be > 0 and <= 120"
                 )
 
-            if (cpm <= 0) or (cpm > 40):
+            if (cpm <= 0) or (cpm > 50):
                 raise ValueError(
-                    f"Line {lineno}: CPM must be > 0 and <= 40"
+                    f"Line {lineno}: CPM must be > 0 and <= 50"
                 )
 
             workout.steps.append(
