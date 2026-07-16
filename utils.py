@@ -10,9 +10,9 @@ from setup import INTENSITY_DICT
 def load_workout(filename):
     workout = Workout()
 
-    with open(filename, "r", encoding="utf-8") as f:
+    with open(filename, "r", encoding="utf-8") as fr:
 
-        for lineno, raw in enumerate(f, start=1):
+        for lineno, raw in enumerate(fr, start=1):
 
             line = raw.strip()
 
@@ -52,6 +52,8 @@ def load_workout(filename):
 
             parts = line.split()
 
+            #Expected .wo file data format is : duration_float_minutes spm_int intensity_char
+            #hence 3 values mandatory per data line
             if len(parts) != 3:
                 raise ValueError(
                     f"Line {lineno}: expected 'minutes cpm intensity'"
@@ -63,7 +65,7 @@ def load_workout(filename):
                 intensity = str(parts[2])
             except ValueError:
                 raise ValueError(
-                    f"Line {lineno}: invalid data type"
+                    f"Line {lineno}: invalid data type; must be: int_or_float  int  character"
                 )
 
             if (minutes <= 0.0) or (minutes > 120.0):
@@ -76,6 +78,7 @@ def load_workout(filename):
                     f"Line {lineno}: CPM must be > 0 and <= 50"
                 )
             
+            #If the intensity character is not one of the INTENSITY_DICT key, then error
             if intensity not in INTENSITY_DICT:
                 raise ValueError(
                     f"Line {lineno}: intensity must be one of R, E, N, F or M"

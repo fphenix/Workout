@@ -70,6 +70,7 @@ class MainWindow(QMainWindow):
 
         self.countdown_remaining = 0
         self.total_remaining = 0
+        self.total_time = 0
         self.step_remaining = 0
 
         self.step_elapsed = 0
@@ -364,6 +365,7 @@ class MainWindow(QMainWindow):
         self.total_remaining = (
             workout.total_seconds
         )
+        self.total_time = self.total_remaining
 
         self.step_remaining = 0
 
@@ -542,6 +544,10 @@ class MainWindow(QMainWindow):
             + format_time(
                 self.total_remaining
             )
+            + " sur "
+            + format_time(
+                self.total_time
+            )
         )
 
         self.exercise_label.setText(
@@ -573,7 +579,7 @@ class MainWindow(QMainWindow):
         )
 
         self.state_label.setText(
-            "Workout terminé"
+            "Workout terminé!"
         )
 
         self.exercise_label.setText(
