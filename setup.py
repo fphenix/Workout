@@ -23,6 +23,14 @@ INTENSITY_DICT = {
     "M" : "Max / Très Forte"
 }
 
+INTENSITY_COLORS = {
+        "R": "#7FDBFF",   # light blue
+        "E": "#0055FF",   # blue
+        "N": "#00AA00",   # green
+        "F": "#DD2222",   # red
+        "M": "#BB44DD",   # violet
+}
+
 TITLE_FONT = 28
 BIG_FONT = 24
 NORMAL_FONT = 20

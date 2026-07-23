@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from setup import INTENSITY_DICT
+from setup import INTENSITY_DICT, INTENSITY_COLORS
 
 @dataclass
 class WorkoutStep:
@@ -14,3 +14,7 @@ class WorkoutStep:
     @property
     def intensity_text(self):
         return f"{INTENSITY_DICT[self.intensity]}"
+
+    @property
+    def intensity_color(self):
+         return f"{INTENSITY_COLORS[self.intensity]}"

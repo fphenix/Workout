@@ -400,7 +400,15 @@ class MainWindow(QMainWindow):
         self.intensity_label.setText(
             "Intensité : --"
         )
-
+        self.intensity_label.setStyleSheet(
+            f"""
+            QLabel {{
+                color: white;
+                font: {BIG_FONT}px Consolas;
+            }}
+            """
+        )
+        
         self.last_tick = time.perf_counter()
 
     # -------------------------------------------------------------------------
@@ -564,6 +572,14 @@ class MainWindow(QMainWindow):
 
         self.intensity_label.setText(
             f"Intensité : {step.intensity_text}"
+        )
+        self.intensity_label.setStyleSheet(
+            f"""
+            QLabel {{
+                color: {step.intensity_color};
+                font: {BIG_FONT}px Consolas;
+            }}
+            """
         )
 
     # -------------------------------------------------------------------------
